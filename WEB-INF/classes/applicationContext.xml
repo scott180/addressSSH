@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	                    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	                    http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+                        http://www.springframework.org/schema/aop
+                        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+                        http://www.springframework.org/schema/tx
+                        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                        http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring
+                        http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.1.xsd">
+                        
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="configLocation" value="classpath:hibernate.cfg.xml" />
+	</bean>
+	
+<!-- 配置事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<!-- 配置事务传播 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="del*" propagation="REQUIRED" />
+			<tx:method name="remove*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="edit*" propagation="REQUIRED" />
+			<tx:method name="*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- 将事务配置到service层 -->
+	<aop:config>
+		<aop:pointcut id="interceptorPointCuts"
+			expression="execution(* com.demo.service.impl.*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="interceptorPointCuts" />
+	</aop:config>
+
+		<!-- action层 -->
+	<bean id="cityAction" class="com.demo.action.CityAction" scope="prototype">
+		<property name="cityService" ref="cityService" />
+	</bean>
+	<bean id="userAction" class="com.demo.action.UserAction" scope="prototype">
+		<property name="userService" ref="userService" />
+	</bean>
+	<bean id="addrAction" class="com.demo.action.AddressListAction" scope="prototype">
+		<property name="addrService" ref="addrService" />
+	</bean>
+	
+     <!-- service层 -->
+	<bean id="cityService" class="com.demo.service.impl.CityServiceImpl">
+		<property name="cityDao" ref="cityDao" />
+	</bean>
+	<bean id="userService" class="com.demo.service.impl.UserServiceImpl">
+		<property name="userDao" ref="userDao" />
+	</bean>
+	<bean id="addrService" class="com.demo.service.impl.AddressListServiceImpl">
+		<property name="addrDao" ref="addrDao" />
+	</bean>
+	
+
+	<!-- 数据库操作层 -->
+	<bean id="cityDao" class="com.demo.dao.impl.CityDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="userDao" class="com.demo.dao.impl.UserDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="addrDao" class="com.demo.dao.impl.AddressListDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+</beans>

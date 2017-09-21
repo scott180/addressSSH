@@ -1,0 +1,26 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<property name="proxool.pool_alias">proxoolPool</property>
+		<property name="proxool.xml">proxool.xml</property>
+		<property name="connection.provider_class">
+			org.hibernate.connection.ProxoolConnectionProvider
+		</property>
+		<property name="dialect">
+			org.hibernate.dialect.MySQL5Dialect
+		</property>
+		<property name="connection.driver_class">
+			com.mysql.jdbc.Driver
+		</property>
+		<property name="show_sql">false</property>
+		<property name="connection.autocommit">false</property>
+
+		<property name="hbm2ddl.auto">false</property>
+
+		<mapping resource="com/demo/pojo/User.hbm.xml" />
+		<mapping resource="com/demo/pojo/City.hbm.xml" />
+		<mapping resource="com/demo/pojo/AddressList.hbm.xml" />
+	</session-factory>
+</hibernate-configuration>

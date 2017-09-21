@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<something-else-entirely>
+    <proxool>
+        <alias>proxoolPool</alias>
+        <!-- for mysql -->
+        <driver-url>jdbc:mysql://localhost:3306/address?characterEncoding=UTF-8</driver-url>
+        <driver-class>com.mysql.jdbc.Driver</driver-class>
+        <driver-properties>
+            <property name="user" value="root"/>
+            <property name="password" value="12344"/>
+        </driver-properties>
+
+        <maximum-connection-count>300</maximum-connection-count>
+        <minimum-connection-count>10</minimum-connection-count>
+        <house-keeping-sleep-time>120000</house-keeping-sleep-time>
+        <simultaneous-build-throttle>30</simultaneous-build-throttle>
+        <prototype-count>10</prototype-count>
+        <maximum-active-time>36000000</maximum-active-time>
+        <maximum-connection-lifetime>43200000</maximum-connection-lifetime>
+    </proxool>
+</something-else-entirely>

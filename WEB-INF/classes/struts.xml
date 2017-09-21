@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
+	"http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+
+<!-- 链接 http://localhost:8080/AddressSSH/address 
+	修改 tomcat server.xml <Connector URIEncoding="UTF-8" connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443"/>
+-->
+	 <package name="addr" namespace="/" extends="struts-default">
+			<action name="address" class="com.demo.action.UserAction" method="address">
+				<result name="success">/jsp/address.jsp</result>
+			</action>
+     </package> 
+     
+	<package name="/" extends="json-default" namespace="/">
+		<!-- 城市列表 -->
+		<action name="cityList" class="cityAction" method="queryCityList">
+			<result name="success" type="json">
+				<param name="root">list</param>
+			</result>
+		</action>
+		<!-- 人员列表 -->
+		<action name="userList" class="com.demo.action.UserAction" method="queryUserList">
+			<result name="success" type="json">
+				<param name="root">map</param>
+			</result>
+		</action>
+		<!-- 保存或修改人员 -->
+		<action name="saveOrEdit" class="userAction" method="saveOrEditUser">
+		</action>
+		<!-- 删除人员 -->
+		<action name="delUser" class="userAction" method="delUser">
+		</action>
+		<!-- 检查用户姓名 -->
+		<action name="checkName" class="com.demo.action.UserAction" method="checkName">
+			<result name="success" type="json">
+				<param name="root">map</param>
+			</result>
+		</action>
+		<action name="addrList" class="addrAction" method="queryAddrList">
+			<result name="success" type="json">
+				<param name="root">map</param>
+			</result>
+		</action>
+		<!-- 通讯录检查用户姓名 -->
+		<action name="checkNameAddr" class="addrAction" method="checkNameAddr">
+			<result name="success" type="json">
+				<param name="root">map</param>
+			</result>
+		</action>
+		<action name="saveOrEditAddr" class="addrAction" method="saveOrEditAddr">
+		</action>
+		
+		<action name="delAddr" class="addrAction" method="delAddr">
+		</action>
+	</package>
+</struts>	
